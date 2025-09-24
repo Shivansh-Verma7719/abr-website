@@ -7,7 +7,6 @@ import Image from 'next/image';
 import ArticleCard from '@/components/abr/ArticleCard';
 import { Article } from '@/types/abr';
 
-// Sample featured articles data
 const featuredArticles: Article[] = [
   {
     id: 1,
