@@ -1,7 +1,7 @@
 import React, { useEffect, useLayoutEffect, useMemo, useRef, useState, useCallback } from 'react';
 import { gsap } from 'gsap';
 import { Download, Share2 } from 'lucide-react';
-import { Button, PressEvent } from '@heroui/react';
+import { Button } from '@heroui/react';
 
 const useMedia = (queries: string[], values: number[], defaultValue: number): number => {
     const get = useCallback(() => {
