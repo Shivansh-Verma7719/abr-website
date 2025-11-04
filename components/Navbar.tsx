@@ -10,15 +10,16 @@ const CustomNavbar: React.FC = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const pages = [
         { name: "About", href: "/about" },
-        { name: "Events", href: "/events" },
         { name: "Team", href: "/team" },
-        { name: "Contact", href: "/contact" },
+        { name: "The Monocle", href: "/monocle" },
+        { name: "Magazine", href: "/magazine" },
+        { name: "Sponsor Us", href: "/sponsor" },
     ];
 
 
     return (
         <motion.header
-            className="fixed top-0 left-0 right-0 z-40 bg-background backdrop-blur-sm shadow-sm"
+            className="fixed top-0 left-0 right-0 z-40 bg-background"
         >
             <nav className="container mx-auto px-4 sm:px-6 py-2">
                 <div className="flex justify-between items-center">

@@ -5,7 +5,7 @@ export default heroui({
     light: {
       colors: {
         // background: "#1c1717",
-        background: "#e5e5e5",
+        background: "#ffffff",
         // foreground: "#ffffff",
         foreground: "#0A192F",
         primary: "#b81d23",

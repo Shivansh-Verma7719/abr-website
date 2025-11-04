@@ -5,17 +5,12 @@
 
 :root {
   /* --background: #1c1717; */
-  --background: #e5e5e5;
-  /* --foreground: #ffffff; */
+  --background: #ffffff;
   --foreground: #0a192f;
   --abr-red: #b81d23;
 }
 
 @theme {
-  --color-abc-blue: var(--abc-blue);
-  --color-abc-red: var(--abc-red);
-  --color-abc-grey: var(--abc-grey);
-  --color-abc-gold: var(--abc-gold);
   --color-abr-red: var(--abr-red);
 }
 
@@ -75,7 +70,7 @@ h6 {
 @theme inline {
   --animate-marquee: marquee var(--duration) infinite linear;
   --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
- 
+
   @keyframes marquee {
     from {
       transform: translateX(0);

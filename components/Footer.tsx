@@ -68,7 +68,7 @@ export function Footer() {
                         })}
                     </ul>
                 </div>
-                <h2 className="absolute -bottom-0 left-0  translate-y-1/3 text-[165px]  text-abr-red">
+                <h2 className="absolute -bottom-0 left-0  translate-y-1/3 text-[135px]  text-abr-red">
                     {isMobile ? "ABR" : "Ashoka Business Review"}
                 </h2>
             </div>

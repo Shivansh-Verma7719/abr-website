@@ -1,47 +1,13 @@
 'use client';
-import { Input, Button } from '@heroui/react';
+import { useState, useEffect } from 'react';
+import { Input, Button, Spinner } from '@heroui/react';
 import { motion } from 'framer-motion';
 import { ArrowRight, BookOpen, Users, Globe, Award, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import ArticleCard from '@/components/abr/ArticleCard';
 import { Article } from '@/types/abr';
-
-const featuredArticles: Article[] = [
-  {
-    id: 1,
-    title: "The Future of Sustainable Business Practices",
-    excerpt: "Exploring how companies are adapting to environmental challenges and creating value through sustainability initiatives.",
-    author: "Sarah Chen",
-    publishDate: "2024-03-15",
-    readTime: "8 min read",
-    imageUrl: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
-    link: "/articles/sustainable-business",
-    category: "Sustainability"
-  },
-  {
-    id: 2,
-    title: "Digital Transformation in Financial Services",
-    excerpt: "How fintech innovations are reshaping traditional banking and creating new opportunities for financial inclusion.",
-    author: "Michael Rodriguez",
-    publishDate: "2024-03-12",
-    readTime: "6 min read",
-    imageUrl: "https://images.unsplash.com/photo-1559526324-593bc073d938?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
-    link: "/articles/fintech-transformation",
-    category: "Technology"
-  },
-  {
-    id: 3,
-    title: "Emerging Markets: The Next Growth Frontier",
-    excerpt: "An analysis of investment opportunities and challenges in developing economies across Asia, Africa, and Latin America.",
-    author: "Priya Sharma",
-    publishDate: "2024-03-10",
-    readTime: "10 min read",
-    imageUrl: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
-    link: "/articles/emerging-markets",
-    category: "Markets"
-  }
-];
+import { fetchFeaturedArticles } from './helpers';
 
 const stats = [
   { icon: BookOpen, label: "Articles Published", value: "500+" },
@@ -51,6 +17,23 @@ const stats = [
 ];
 
 export default function HomePage() {
+  const [featuredArticles, setFeaturedArticles] = useState<Article[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadFeaturedArticles();
+  }, []);
+
+  const loadFeaturedArticles = async () => {
+    try {
+      const data = await fetchFeaturedArticles();
+      setFeaturedArticles(data);
+    } catch (err) {
+      console.error('Error:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-gray-50 to-white">
       {/* Hero Section */}
@@ -147,25 +130,43 @@ export default function HomePage() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {featuredArticles.map((article, index) => (
-              <ArticleCard key={article.id} article={article} index={index} />
-            ))}
-          </div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="text-center mt-12"
-          >
-            <Link href="/articles" className="group">
-              <div className="inline-flex items-center gap-2 text-abr-red font-semibold text-lg hover:gap-3 transition-all duration-300">
-                View All Articles
-                <ArrowRight className="w-5 h-5" />
+          {loading ? (
+            <div className="flex justify-center py-12">
+              <Spinner size="lg" label="Loading featured articles..." />
+            </div>
+          ) : featuredArticles.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-xl text-gray-600">No featured articles available yet.</p>
+            </div>
+          ) : (
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {featuredArticles.map((article, index) => (
+                  <ArticleCard key={article.id} article={article} index={index} />
+                ))}
               </div>
-            </Link>
-          </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="text-center mt-12"
+              >
+                <Link href="/magazine" className="group mr-4">
+                  <div className="inline-flex items-center gap-2 text-abr-red font-semibold text-lg hover:gap-3 transition-all duration-300">
+                    View Magazine
+                    <ArrowRight className="w-5 h-5" />
+                  </div>
+                </Link>
+                <Link href="/monocle" className="group">
+                  <div className="inline-flex items-center gap-2 text-abr-red font-semibold text-lg hover:gap-3 transition-all duration-300">
+                    View Monocle
+                    <ArrowRight className="w-5 h-5" />
+                  </div>
+                </Link>
+              </motion.div>
+            </>
+          )}
         </div>
       </section>
 
