@@ -99,7 +99,7 @@ const SmartPaste = Extension.create({
                                 }
 
                                 // Apply inline formatting
-                                let formattedContent = trimmedLine
+                                const formattedContent = trimmedLine
                                     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                                     .replace(/(?<!\*)\*([^*]+?)\*(?!\*)/g, '<em>$1</em>')
                                     .replace(/`([^`]+?)`/g, '<code>$1</code>')
@@ -169,7 +169,7 @@ const SmartPaste = Extension.create({
                             }
 
                             // Apply inline formatting to regular paragraphs
-                            let formattedContent = trimmedLine
+                            const formattedContent = trimmedLine
                                 // Bold **text**
                                 .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                                 // Italic *text*
