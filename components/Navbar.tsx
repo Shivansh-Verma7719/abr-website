@@ -13,7 +13,7 @@ const CustomNavbar: React.FC = () => {
         { name: "Team", href: "/team" },
         { name: "The Monocle", href: "/monocle" },
         { name: "Magazine", href: "/magazine" },
-        { name: "Sponsor Us", href: "/sponsor" },
+        { name: "Sponsor Us", href: "/contact" },
     ];
 
 

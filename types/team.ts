@@ -15,6 +15,7 @@ export interface TeamMember {
   name: string;
   position: string;
   department?: string;
+  description?: string;
   imageUrl: string;
   socialLinks?: SocialLink[];
 }

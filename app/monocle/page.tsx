@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Spinner } from '@heroui/react';
-import EditionCard from '@/components/sections/EditionCard';
+import EditionCard from '@/components/abr/EditionCard';
 import { fetchMonocleEditions, type Edition } from './helpers';
 
 export default function MonoclePage() {
@@ -47,10 +47,10 @@ export default function MonoclePage() {
     }
 
     return (
-        <div className="min-h-screen bg-background">
+        <div className="min-h-screen bg-background w-full max-w-5xl">
             {/* Hero Section */}
-            <section className="relative py-20 px-6 bg-gradient-to-br from-abc-purple/10 to-abc-purple/5">
-                <div className="max-w-7xl mx-auto">
+            <section className="relative py-10 px-6">
+                <div className="mx-auto">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -68,8 +68,8 @@ export default function MonoclePage() {
             </section>
 
             {/* Editions Grid */}
-            <section className="py-16 px-6">
-                <div className="max-w-7xl mx-auto">
+            <section className="py-8">
+                <div className=" mx-auto">
                     {editions.length === 0 ? (
                         <div className="text-center py-12">
                             <p className="text-xl text-gray-600">No editions available yet.</p>

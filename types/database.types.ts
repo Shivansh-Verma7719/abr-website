@@ -172,6 +172,7 @@ export type Database = {
           id: number
           is_featured: boolean | null
           last_edited_by: number | null
+          likes: number | null
           published_at: string | null
           read_time: number | null
           slug: string
@@ -191,6 +192,7 @@ export type Database = {
           id?: number
           is_featured?: boolean | null
           last_edited_by?: number | null
+          likes?: number | null
           published_at?: string | null
           read_time?: number | null
           slug: string
@@ -210,6 +212,7 @@ export type Database = {
           id?: number
           is_featured?: boolean | null
           last_edited_by?: number | null
+          likes?: number | null
           published_at?: string | null
           read_time?: number | null
           slug?: string
@@ -288,7 +291,6 @@ export type Database = {
           created_at: string | null
           description: string | null
           id: number
-          issue_number: number | null
           publication_date: string | null
           publication_id: number
           status: string | null
@@ -301,7 +303,6 @@ export type Database = {
           created_at?: string | null
           description?: string | null
           id?: number
-          issue_number?: number | null
           publication_date?: string | null
           publication_id: number
           status?: string | null
@@ -314,7 +315,6 @@ export type Database = {
           created_at?: string | null
           description?: string | null
           id?: number
-          issue_number?: number | null
           publication_date?: string | null
           publication_id?: number
           status?: string | null
@@ -569,10 +569,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      get_current_person_id: {
-        Args: Record<PropertyKey, never>
-        Returns: number
-      }
+      get_current_person_id: { Args: never; Returns: number }
     }
     Enums: {
       [_ in never]: never

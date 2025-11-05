@@ -13,7 +13,8 @@ export function Footer() {
     ]
 
     const additionalLinks = [
-        { name: "Business Review", href: "#review", color: "hover:text-black", lineColor: "bg-black" },
+        { name: "Business Review", href: "/magazine", color: "hover:text-black", lineColor: "bg-black" },
+        { name: "Monocle", href: "/monocle", color: "hover:text-black", lineColor: "bg-black" },
     ]
 
     const socialLinks = [
@@ -25,7 +26,7 @@ export function Footer() {
 
     return (
         <div className="sticky z-0 bottom-0 left-0 w-full h-80 bg-background flex justify-center items-center">
-            <div className="relative overflow-hidden w-full h-full flex justify-end px-7 md:px-12 text-left items-start py-12 text-abc-blue">
+            <div className="relative overflow-hidden w-full h-full flex justify-start px-7 md:px-12 text-left items-start py-12 text-abc-blue">
                 <div className="flex flex-row space-x-12 sm:space-x-16 md:space-x-24 text-sm sm:text-lg md:text-xl">
                     <ul>
                         {mainLinks.map((link, index) => (

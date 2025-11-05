@@ -235,7 +235,6 @@ export default function ArticlePage({ params }: { params: Promise<{ slug: string
                                 <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">Published in</p>
                                 <p className="text-lg font-semibold text-foreground">
                                     {article.edition.publication?.name} - {article.edition.title}
-                                    {article.edition.issue_number && ` (Issue ${article.edition.issue_number})`}
                                 </p>
                             </motion.div>
                         )}

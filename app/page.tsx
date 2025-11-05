@@ -35,10 +35,10 @@ export default function HomePage() {
     }
   };
   return (
-    <div className="min-h-screen w-full bg-gradient-to-br from-gray-50 to-white">
+    <div className="min-h-screen w-full">
       {/* Hero Section */}
       <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-abr-red/5 to-transparent"></div>
+        <div className="absolute inset-0"></div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
           <div className="text-center">
             <motion.div
