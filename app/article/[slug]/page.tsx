@@ -4,10 +4,11 @@ import { useState, useEffect, use } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowLeft, Calendar, User, Clock, Share2, Tag } from 'lucide-react';
-import { Button, Chip, Spinner } from '@heroui/react';
+import { Calendar, User, Clock, Share2, ThumbsUp } from 'lucide-react';
+import { Button, Spinner, Chip } from '@heroui/react';
 import { formatDate } from '@/utils/date';
 import { fetchArticleBySlug, ArticleData } from './helpers';
+import RichTextEditor from '@/components/ui/RichTextEditor';
 
 export default function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
     const resolvedParams = use(params);
@@ -72,161 +73,175 @@ export default function ArticlePage({ params }: { params: Promise<{ slug: string
 
     return (
         <div className="min-h-screen bg-background">
-            {/* Header with Back Button */}
-            <div className="sticky top-0 z-10 bg-background/80 backdrop-blur-sm border-b">
-                <div className="max-w-4xl mx-auto px-6 py-4">
-                    <Button
-                        as={Link}
-                        href={article.edition?.publication?.id === 1 ? '/magazine' : article.edition?.publication?.id === 2 ? '/monocle' : '/'}
-                        variant="flat"
-                        startContent={<ArrowLeft className="w-4 h-4" />}
-                    >
-                        Back
-                    </Button>
+
+            {/* Hero Section */}
+            <section className="pt-8">
+                <div className="container mx-auto px-4">
+                    <div className="max-w-4xl mx-auto">
+
+                        {/* Title */}
+                        <motion.h1
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8, delay: 0.1 }}
+                            className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-8 leading-tight"
+                        >
+                            {article.title}
+                        </motion.h1>
+
+                        {/* Featured Image */}
+                        {article.featured_image && (
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.95 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ duration: 0.8, delay: 0.2 }}
+                                className="relative w-full h-64 md:h-96 lg:h-[500px] rounded-3xl overflow-hidden shadow-2xl mb-8"
+                            >
+                                <Image
+                                    src={article.featured_image}
+                                    alt={article.title}
+                                    fill
+                                    className="object-cover"
+                                    priority
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+                            </motion.div>
+                        )}
+                        {/* Category Badge */}
+                        {article.category && (
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.6 }}
+                                className="mb-6"
+                            >
+                                <Chip
+                                    color="primary"
+                                    variant="solid"
+                                    radius="full"
+                                    size="lg"
+                                    classNames={{
+                                        content: "text-white font-medium"
+                                    }}
+                                >
+                                    {article.category.name}
+                                </Chip>
+                            </motion.div>
+                        )}
+
+                        {/* Meta Information */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6, delay: 0.3 }}
+                            className="space-y-4 mb-8"
+                        >
+                            {/* Author Info */}
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 bg-abr-red rounded-full flex items-center justify-center">
+                                    {article.author?.profile_image ? (
+                                        <Image
+                                            src={article.author.profile_image}
+                                            alt={article.author.full_name || 'Author'}
+                                            width={48}
+                                            height={48}
+                                            className="rounded-full object-cover"
+                                        />
+                                    ) : (
+                                        <User className="w-6 h-6 text-white" />
+                                    )}
+                                </div>
+                                <div>
+                                    <h3 className="font-semibold text-gray-900 dark:text-white text-lg">
+                                        {article.author?.full_name || 'Unknown Author'}
+                                    </h3>
+                                    <div className="flex items-center gap-4 text-gray-600 dark:text-gray-400 text-sm">
+                                        <div className="flex items-center gap-1">
+                                            <Calendar className="w-4 h-4" />
+                                            <span>{formatDate(article.published_at || article.created_at || '')}</span>
+                                        </div>
+                                        {article.read_time && (
+                                            <div className="flex items-center gap-1">
+                                                <Clock className="w-4 h-4" />
+                                                <span>{article.read_time} min read</span>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Excerpt */}
+                            {article.excerpt && (
+                                <div className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
+                                    {article.excerpt}
+                                </div>
+                            )}
+                        </motion.div>
+                    </div>
                 </div>
-            </div>
+            </section>
 
             {/* Article Content */}
-            <article className="max-w-4xl mx-auto px-6 py-12">
-                {/* Category Badge */}
-                {article.category && (
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
-                        className="mb-6"
-                    >
-                        <Chip
-                            style={{ backgroundColor: article.category.color || '#3B82F6' }}
-                            className="text-white"
-                            size="lg"
-                            startContent={<Tag className="w-4 h-4" />}
+            <section className="pb-16">
+                <div className="container mx-auto px-4">
+                    <div className="max-w-4xl mx-auto">
+                        {/* Main Content */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8, delay: 0.5 }}
                         >
-                            {article.category.name}
-                        </Chip>
-                    </motion.div>
-                )}
-
-                {/* Title */}
-                <motion.h1
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.1 }}
-                    className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-8 leading-tight"
-                >
-                    {article.title}
-                </motion.h1>
-
-                {/* Excerpt */}
-                {article.excerpt && (
-                    <motion.p
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.2 }}
-                        className="text-xl text-gray-600 mb-8 leading-relaxed"
-                    >
-                        {article.excerpt}
-                    </motion.p>
-                )}
-
-                {/* Meta Information */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.3 }}
-                    className="flex flex-wrap items-center gap-6 mb-8 pb-8 border-b"
-                >
-                    {/* Author */}
-                    <div className="flex items-center gap-3">
-                        {article.author?.profile_image ? (
-                            <Image
-                                src={article.author.profile_image}
-                                alt={article.author.full_name || 'Author'}
-                                width={48}
-                                height={48}
-                                className="rounded-full"
+                            <RichTextEditor
+                                content={article.content}
+                                editable={false}
+                                className="border-none"
                             />
-                        ) : (
-                            <div className="w-12 h-12 rounded-full bg-abr-red/10 flex items-center justify-center">
-                                <User className="w-6 h-6 text-abr-red" />
+
+                            {/* Social Actions */}
+                            <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
+                                <div className="flex items-center justify-between">
+                                    <div className="flex items-center gap-4">
+                                        <Button
+                                            size="md"
+                                            radius="full"
+                                            variant="flat"
+                                            startContent={<ThumbsUp className="w-4 h-4" />}
+                                            className="px-4 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-300"
+                                        >
+                                            Like
+                                        </Button>
+                                    </div>
+                                    <Button
+                                        size="md"
+                                        radius="full"
+                                        onPress={handleShare}
+                                        startContent={<Share2 className="w-4 h-4" />}
+                                        className="px-6 bg-abr-red text-white hover:opacity-90 transition-colors duration-300"
+                                    >
+                                        Share Article
+                                    </Button>
+                                </div>
                             </div>
+                        </motion.div>
+
+                        {/* Edition Info */}
+                        {article.edition && (
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.8, delay: 0.6 }}
+                                className="mt-8 p-6 bg-gray-50 dark:bg-gray-800 rounded-2xl"
+                            >
+                                <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">Published in</p>
+                                <p className="text-lg font-semibold text-foreground">
+                                    {article.edition.publication?.name} - {article.edition.title}
+                                    {article.edition.issue_number && ` (Issue ${article.edition.issue_number})`}
+                                </p>
+                            </motion.div>
                         )}
-                        <div>
-                            <p className="text-sm text-gray-500">Written by</p>
-                            <p className="font-semibold text-foreground">
-                                {article.author?.full_name || 'Unknown Author'}
-                            </p>
-                        </div>
                     </div>
-
-                    {/* Published Date */}
-                    <div className="flex items-center gap-2 text-gray-600">
-                        <Calendar className="w-5 h-5" />
-                        <span>{formatDate(article.published_at || article.created_at || '')}</span>
-                    </div>
-
-                    {/* Read Time */}
-                    {article.read_time && (
-                        <div className="flex items-center gap-2 text-gray-600">
-                            <Clock className="w-5 h-5" />
-                            <span>{article.read_time} min read</span>
-                        </div>
-                    )}
-
-                    {/* Share Button */}
-                    <Button
-                        isIconOnly
-                        variant="flat"
-                        onPress={handleShare}
-                        className="ml-auto"
-                    >
-                        <Share2 className="w-5 h-5" />
-                    </Button>
-                </motion.div>
-
-                {/* Featured Image */}
-                {article.featured_image && (
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.8, delay: 0.4 }}
-                        className="relative w-full h-64 md:h-96 lg:h-[500px] rounded-3xl overflow-hidden shadow-2xl mb-12"
-                    >
-                        <Image
-                            src={article.featured_image}
-                            alt={article.title}
-                            fill
-                            className="object-cover"
-                            priority
-                        />
-                    </motion.div>
-                )}
-
-                {/* Article Content */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.5 }}
-                    className="prose prose-lg max-w-none prose-headings:font-bold prose-headings:text-foreground prose-p:text-gray-700 prose-a:text-abr-red prose-a:no-underline hover:prose-a:underline prose-img:rounded-2xl prose-img:shadow-lg"
-                    dangerouslySetInnerHTML={{ __html: article.content }}
-                />
-
-                {/* Edition Info */}
-                {article.edition && (
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.6 }}
-                        className="mt-12 p-6 bg-gray-50 rounded-2xl"
-                    >
-                        <p className="text-sm text-gray-500 mb-2">Published in</p>
-                        <p className="text-lg font-semibold text-foreground">
-                            {article.edition.publication?.name} - {article.edition.title}
-                            {article.edition.issue_number && ` (Issue ${article.edition.issue_number})`}
-                        </p>
-                    </motion.div>
-                )}
-            </article>
+                </div>
+            </section>
         </div>
     );
 }

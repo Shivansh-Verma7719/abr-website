@@ -17,59 +17,110 @@ interface ArticleWithRelations extends DbArticle {
     | null;
 }
 
+// Use database type for Edition
+export type Edition = DbEdition & {
+  articleCount?: number;
+};
+
+// Re-export Article type for convenience
+export type { Article };
+
 // Monocle has publication_id = 2
 const MONOCLE_PUBLICATION_ID = 2;
 
-export async function fetchMonocleArticles(): Promise<Article[]> {
+export async function fetchMonocleEditions(): Promise<Edition[]> {
   const supabase = createClient();
 
-  // Fetch articles that belong to editions with publication_id = 2
+  const { data, error } = await supabase
+    .from("editions")
+    .select("*")
+    .eq("publication_id", MONOCLE_PUBLICATION_ID)
+    .eq("status", "published")
+    .order("publication_date", { ascending: false });
+
+  if (error) {
+    console.error("Error fetching monocle editions:", error);
+    throw new Error("Failed to load editions");
+  }
+
+  // Get article count for each edition
+  const editionsWithCounts = await Promise.all(
+    (data || []).map(async (edition) => {
+      const { count } = await supabase
+        .from("articles")
+        .select("*", { count: "exact", head: true })
+        .eq("edition_id", edition.id)
+        .eq("status", "published");
+
+      return {
+        ...edition,
+        articleCount: count || 0,
+      };
+    })
+  );
+
+  return editionsWithCounts;
+}
+
+export async function fetchArticlesByEdition(
+  editionId: number
+): Promise<Article[]> {
+  const supabase = createClient();
+
   const { data, error } = await supabase
     .from("articles")
     .select(
       `
             *,
             author:people!articles_author_id_fkey(id, full_name, profile_image),
-            category:categories(id, name, color),
-            edition:editions!articles_edition_id_fkey(
-                id,
-                title,
-                issue_number,
-                publication_id
-            )
+            category:categories(id, name, color)
         `
     )
     .eq("status", "published")
-    .not("edition_id", "is", null)
+    .eq("edition_id", editionId)
     .order("published_at", { ascending: false });
 
   if (error) {
-    console.error("Error fetching monocle articles:", error);
+    console.error("Error fetching articles by edition:", error);
     throw new Error("Failed to load articles");
   }
 
-  // Filter articles where edition.publication_id = 2 (Monocle)
-  const monocleArticles =
-    (data as ArticleWithRelations[] | null)?.filter(
-      (article) => article.edition?.publication_id === MONOCLE_PUBLICATION_ID
-    ) || [];
-
-  // Transform to Article type
-  const transformedArticles: Article[] = monocleArticles.map((article) => ({
-    id: article.id,
-    title: article.title,
-    excerpt: article.excerpt || "",
-    author: article.author?.full_name || "Unknown Author",
-    publishDate: article.published_at || article.created_at || "",
-    readTime: article.read_time
-      ? `${article.read_time} min read`
-      : "5 min read",
-    imageUrl:
-      article.featured_image ||
-      "https://images.unsplash.com/photo-1557426272-fc759fdf7a8d?auto=format&fit=crop&w=2070&q=80",
-    link: `/article/${article.slug}`,
-    category: article.category?.name || "Uncategorized",
-  }));
+  const transformedArticles: Article[] =
+    (data as ArticleWithRelations[] | null)?.map((article) => ({
+      id: article.id,
+      title: article.title,
+      excerpt: article.excerpt || "",
+      author: article.author?.full_name || "Unknown Author",
+      publishDate: article.published_at || article.created_at || "",
+      readTime: article.read_time
+        ? `${article.read_time} min read`
+        : "5 min read",
+      imageUrl:
+        article.featured_image ||
+        "https://images.unsplash.com/photo-1557426272-fc759fdf7a8d?auto=format&fit=crop&w=2070&q=80",
+      link: `/article/${article.slug}`,
+      category: article.category?.name || "Uncategorized",
+    })) ?? [];
 
   return transformedArticles;
+}
+
+export async function fetchEditionById(
+  editionId: number
+): Promise<Edition | null> {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from("editions")
+    .select("*")
+    .eq("id", editionId)
+    .eq("publication_id", MONOCLE_PUBLICATION_ID)
+    .single();
+
+  if (error) {
+    console.error("Error fetching edition:", error);
+    throw new Error("Edition not found");
+  }
+
+  return data;
 }

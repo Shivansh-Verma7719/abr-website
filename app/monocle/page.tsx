@@ -3,23 +3,22 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Spinner } from '@heroui/react';
-import ArticleCard from '@/components/abr/ArticleCard';
-import { Article } from '@/types/abr';
-import { fetchMonocleArticles } from './helpers';
+import EditionCard from '@/components/sections/EditionCard';
+import { fetchMonocleEditions, type Edition } from './helpers';
 
 export default function MonoclePage() {
-    const [articles, setArticles] = useState<Article[]>([]);
+    const [editions, setEditions] = useState<Edition[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        loadArticles();
+        loadEditions();
     }, []);
 
-    const loadArticles = async () => {
+    const loadEditions = async () => {
         try {
-            const data = await fetchMonocleArticles();
-            setArticles(data);
+            const data = await fetchMonocleEditions();
+            setEditions(data);
         } catch (err) {
             console.error('Error:', err);
             setError(err instanceof Error ? err.message : 'An unexpected error occurred');
@@ -31,7 +30,7 @@ export default function MonoclePage() {
     if (loading) {
         return (
             <div className="flex justify-center items-center min-h-screen">
-                <Spinner size="lg" label="Loading Monocle articles..." />
+                <Spinner size="lg" label="Loading Monocle editions..." />
             </div>
         );
     }
@@ -68,17 +67,22 @@ export default function MonoclePage() {
                 </div>
             </section>
 
-            {/* Articles Grid */}
+            {/* Editions Grid */}
             <section className="py-16 px-6">
                 <div className="max-w-7xl mx-auto">
-                    {articles.length === 0 ? (
+                    {editions.length === 0 ? (
                         <div className="text-center py-12">
-                            <p className="text-xl text-gray-600">No articles available yet.</p>
+                            <p className="text-xl text-gray-600">No editions available yet.</p>
                         </div>
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                            {articles.map((article, index) => (
-                                <ArticleCard key={article.id} article={article} index={index} />
+                            {editions.map((edition, index) => (
+                                <EditionCard
+                                    key={edition.id}
+                                    edition={edition}
+                                    publicationType="monocle"
+                                    index={index}
+                                />
                             ))}
                         </div>
                     )}
