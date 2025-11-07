@@ -54,9 +54,15 @@ export default function TeamCard({ member, index = 0 }: TeamCardProps) {
             className="h-64 md:h-72 group cursor-pointer"
             style={{ perspective: '1000px' }}
         >
-            <div className="relative w-full h-full transition-transform duration-700 preserve-3d group-hover:rotate-y-180">
+            <div
+                className="relative w-full h-full transition-transform duration-700 group-hover:[transform:rotateY(180deg)]"
+                style={{ transformStyle: 'preserve-3d' }}
+            >
                 {/* Front Side */}
-                <div className="absolute inset-0 w-full h-full backface-hidden bg-white border border-abr-red rounded-[1.75rem] shadow-2xl p-6 flex flex-col justify-center items-center">
+                <div
+                    className="absolute inset-0 w-full h-full bg-white border border-abr-red rounded-[1.75rem] shadow-2xl p-6 flex flex-col justify-center items-center"
+                    style={{ backfaceVisibility: 'hidden' }}
+                >
                     {/* Member Image */}
                     <div className="flex justify-center mb-4">
                         <div className="w-24 h-24 md:w-32 md:h-32 relative rounded-full overflow-hidden border-4 border-abr-red">
@@ -81,7 +87,13 @@ export default function TeamCard({ member, index = 0 }: TeamCardProps) {
                 </div>
 
                 {/* Back Side */}
-                <div className="absolute inset-0 w-full h-full backface-hidden rotate-y-180 rounded-[1.75rem] shadow-2xl p-6 flex flex-col justify-center items-center bg-gradient-to-br from-red-800 to-red-100 text-white border border-abr-red">
+                <div
+                    className="absolute inset-0 w-full h-full rounded-[1.75rem] shadow-2xl p-6 flex flex-col justify-center items-center bg-gradient-to-br from-red-800 to-red-100 text-white border border-abr-red"
+                    style={{
+                        backfaceVisibility: 'hidden',
+                        transform: 'rotateY(180deg)'
+                    }}
+                >
                     {/* Description */}
                     <div className="text-center mb-4 flex-1 flex flex-col justify-center">
                         <h3 className="text-lg font-bold mb-3">
