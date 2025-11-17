@@ -332,6 +332,24 @@ export type Database = {
           },
         ]
       }
+      "email-list": {
+        Row: {
+          created_at: string
+          email_id: string | null
+          id: number
+        }
+        Insert: {
+          created_at?: string
+          email_id?: string | null
+          id?: number
+        }
+        Update: {
+          created_at?: string
+          email_id?: string | null
+          id?: number
+        }
+        Relationships: []
+      }
       people: {
         Row: {
           can_login: boolean | null

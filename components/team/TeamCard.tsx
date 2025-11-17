@@ -14,12 +14,12 @@ export default function TeamCard({ member, index = 0 }: TeamCardProps) {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="h-64 md:h-72"
+            className="h-64 md:h-72 w-64 md:w-75"
         >
-            <div className="w-full h-full bg-white border border-abr-red rounded-[1.75rem] shadow-2xl p-6 flex flex-col justify-center items-center">
+            <div className="w-full h-full bg-white border border-abr-red/60 rounded-[1.75rem] shadow-2xl p-6 flex flex-col justify-center items-center">
                 {/* Member Image */}
                 <div className="flex justify-center mb-4">
-                    <div className="w-24 h-24 md:w-32 md:h-32 relative rounded-full overflow-hidden border-4 border-abr-red">
+                    <div className="w-24 h-24 md:w-32 md:h-32 relative rounded-full overflow-hidden border-4 border-abr-red/60">
                         <Image
                             src={member.imageUrl}
                             alt={member.name}
