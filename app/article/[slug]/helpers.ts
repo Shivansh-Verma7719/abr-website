@@ -32,7 +32,6 @@ export async function fetchArticleBySlug(
             edition:editions!articles_edition_id_fkey(
                 id,
                 title,
-                issue_number,
                 publication:publications(id, name, type)
             )
         `
