@@ -169,13 +169,6 @@ export default function ArticlePage({ params }: { params: Promise<{ slug: string
                                     </div>
                                 </div>
                             </div>
-
-                            {/* Excerpt */}
-                            {article.excerpt && (
-                                <div className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
-                                    {article.excerpt}
-                                </div>
-                            )}
                         </motion.div>
                     </div>
                 </div>
