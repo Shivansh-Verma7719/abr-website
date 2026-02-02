@@ -31,7 +31,7 @@
     "gsap": "^3.13.0",
     "lucide-react": "^0.540.0",
     "motion": "^12.23.12",
-    "next": "15.4.6",
+    "next": "15.4.10",
     "react": "19.1.0",
     "react-activity-calendar": "^2.7.13",
     "react-dom": "19.1.0",
