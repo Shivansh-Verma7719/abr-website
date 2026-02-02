@@ -213,15 +213,14 @@ export default function HomePage() {
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
-              className="relative"
+              className="relative mx-auto"
             >
-              <div className="relative w-full h-96 rounded-2xl overflow-hidden shadow-2xl">
+              <div className="relative size-100 rounded-2xl overflow-hidden shadow-2xl">
                 <Image
-                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
-                  alt="Business meeting"
+                  src="/images/abr-logo.png"
+                  alt="ABR Logo"
                   fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-contain"
                 />
                 <div className="absolute inset-0 bg-gradient-to-tr from-abr-red/20 to-transparent"></div>
               </div>

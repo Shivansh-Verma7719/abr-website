@@ -190,10 +190,10 @@ export default function ContactPage() {
                                         <div>
                                             <h3 className="font-semibold text-lg text-foreground mb-1">Email</h3>
                                             <a
-                                                href="mailto:abr@ashoka.edu.in"
+                                                href="mailto:businessclub@ashoka.edu.in"
                                                 className="text-gray-600 hover:text-abr-red transition-colors"
                                             >
-                                                abr@ashoka.edu.in
+                                                businessclub@ashoka.edu.in
                                             </a>
                                         </div>
                                     </motion.div>
@@ -225,10 +225,10 @@ export default function ContactPage() {
                                         <div>
                                             <h3 className="font-semibold text-lg text-foreground mb-1">Phone</h3>
                                             <a
-                                                href="tel:+911234567890"
+                                                href="tel:+919628933338"
                                                 className="text-gray-600 hover:text-abr-red transition-colors"
                                             >
-                                                +91 123 456 7890
+                                                +91 96289 33338
                                             </a>
                                         </div>
                                     </motion.div>

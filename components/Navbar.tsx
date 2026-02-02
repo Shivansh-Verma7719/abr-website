@@ -9,7 +9,7 @@ import ABRLogo from "@/public/images/abr-logo.png";
 const CustomNavbar: React.FC = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const pages = [
-        { name: "About", href: "/about" },
+        // { name: "About", href: "/about" },
         { name: "Team", href: "/team" },
         { name: "The Monocle", href: "/monocle" },
         { name: "Magazine", href: "/magazine" },

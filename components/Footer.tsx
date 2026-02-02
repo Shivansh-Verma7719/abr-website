@@ -9,7 +9,7 @@ export function Footer() {
 
     const mainLinks = [
         { name: "About Us", href: "#about", color: "hover:text-black", lineColor: "bg-black" },
-        { name: "Contact", href: "#contact", color: "hover:text-black", lineColor: "bg-black" },
+        { name: "Contact", href: "/contact", color: "hover:text-black", lineColor: "bg-black" },
     ]
 
     const additionalLinks = [
@@ -18,10 +18,10 @@ export function Footer() {
     ]
 
     const socialLinks = [
-        { name: "Email", icon: IconMail, href: "#", color: "hover:text-black", lineColor: "bg-black" },
-        { name: "Instagram", icon: IconBrandInstagram, href: "#", color: "hover:text-pink-500", lineColor: "bg-pink-500" },
-        { name: "LinkedIn", icon: IconBrandLinkedin, href: "#", color: "hover:text-blue-700", lineColor: "bg-blue-700" },
-        { name: "Twitter", icon: IconBrandX, href: "#", color: "hover:text-black", lineColor: "bg-black" },
+        { name: "Email", icon: IconMail, href: "mailto:businessclub@ashoka.edu.in", color: "hover:text-black", lineColor: "bg-black" },
+        { name: "Instagram", icon: IconBrandInstagram, href: "https://instagram.com/ashokabusinessclub", color: "hover:text-pink-500", lineColor: "bg-pink-500" },
+        { name: "LinkedIn", icon: IconBrandLinkedin, href: "https://www.linkedin.com/company/ashokabusinessclub", color: "hover:text-blue-700", lineColor: "bg-blue-700" },
+        { name: "Twitter", icon: IconBrandX, href: "https://x.com/au_businessclub", color: "hover:text-black", lineColor: "bg-black" },
     ]
 
     return (
