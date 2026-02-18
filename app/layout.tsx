@@ -3,6 +3,7 @@ import "./globals.css";
 import * as React from "react";
 import LayoutWrapper from "./layoutWrapper";
 import { League_Spartan, Josefin_Sans, Montserrat } from 'next/font/google'
+import { Analytics } from '@vercel/analytics/next'
 
 const leagueSpartan = League_Spartan({
   subsets: ['latin'],
@@ -33,6 +34,7 @@ export default function RootLayout({
     `} suppressHydrationWarning>
       <body className={`antialiased`}>
         <LayoutWrapper>{children}</LayoutWrapper>
+        <Analytics />
       </body>
     </html >
   );
