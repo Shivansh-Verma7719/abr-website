@@ -3,6 +3,7 @@ import "./globals.css";
 import * as React from "react";
 import LayoutWrapper from "./layoutWrapper";
 import { League_Spartan, Josefin_Sans, Montserrat } from 'next/font/google'
+import { Analytics } from '@vercel/analytics/next';
 
 const leagueSpartan = League_Spartan({
   subsets: ['latin'],
@@ -18,6 +19,28 @@ const montserrat = Montserrat({
 export const metadata: Metadata = {
   title: "Ashoka Business Review",
   description: "Welcome to the Ashoka Business Review | Magazine | Monocle",
+  metadataBase: new URL('https://ashokabusinessreview.com'),
+  openGraph: {
+    title: "Ashoka Business Review",
+    description: "Welcome to the Ashoka Business Review | Magazine | Monocle",
+    url: 'https://ashokabusinessreview.com',
+    siteName: 'Ashoka Business Review',
+    images: [
+      {
+        url: '/abr-logo.png',
+        width: 1200,
+        height: 630,
+        alt: 'Ashoka Business Review',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    title: "Ashoka Business Review",
+    description: "Welcome to the Ashoka Business Review | Magazine | Monocle",
+    images: ['/abr-logo.png'],
+  },
 };
 
 export default function RootLayout({
@@ -33,6 +56,7 @@ export default function RootLayout({
     `} suppressHydrationWarning>
       <body className={`antialiased`}>
         <LayoutWrapper>{children}</LayoutWrapper>
+        <Analytics />
       </body>
     </html >
   );
